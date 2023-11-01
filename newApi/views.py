@@ -28,8 +28,9 @@ def user_details(request, pk):
         serializer = UserSerializer(user)
         return Response(serializer.data)
     if request.method == 'PUT':
+
         user = User.objects.get(pk=pk)
-        serializer = UserSerializer(User, data=request.data)
+        serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -39,3 +40,4 @@ def user_details(request, pk):
     if request.method == 'DELETE':
         user = User.objects.get(pk=pk)
         user.delete()
+        return Response(user.name)
