@@ -5,7 +5,7 @@ from django.db import models
 
 class User(models.Model):
     name = models.CharField(max_length=10)
-    number = models.IntegerField(max_length=10)
+    number = models.IntegerField()
     address = models.CharField(max_length=20)
 
     def __str__(self):
