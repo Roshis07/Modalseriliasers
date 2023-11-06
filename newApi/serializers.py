@@ -20,3 +20,43 @@ class UserSerializer(serializers.Serializer):
         # Save the instance to persist the changes
         instance.save()
         return instance
+    
+
+
+
+  
+
+    def validate_name(self, value):
+        if len(value.strip()) == 0:
+            raise serializers.ValidationError("Invalid name")
+        else:
+            return value.title()
+    
+
+        
+
+    
+
+
+    def validate(self, data):
+        
+        if data['name'] != data['name'].lower():
+            raise serializers.ValidationError("Blog post is not about Django")
+        return data['name']
+
+
+
+
+
+
+
+
+
+
+
+
+    # def validate(self, data):
+       
+    #     if data['name'] ==data['address']:
+    #         raise serializers.ValidationError("finish must occur after start")
+    #     return data
