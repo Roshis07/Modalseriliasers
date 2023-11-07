@@ -2,29 +2,12 @@ from rest_framework import serializers
 from .models import User
 
 
-class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField()
-    number = serializers.IntegerField()
-    address = serializers.CharField()
-
-    def create(self, validated_data):
-        return User.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        # Change this line to update the instance fields
-        instance.name = validated_data.get('name', instance.name)
-        instance.number = validated_data.get('number', instance.number)
-        instance.address = validated_data.get('address', instance.address)
-
-        # Save the instance to persist the changes
-        instance.save()
-        return instance
-    
-
-
-
-  
+class UserSerializer(serializers.ModelSerializer):
+    namel= serializers.SerializerMethodField()
+    class Meta:
+        model = User  # Specify the model that the serializer is associated with
+        fields = '__all__'
+        
 
     def validate_name(self, value):
         if len(value.strip()) == 0:
@@ -33,12 +16,16 @@ class UserSerializer(serializers.Serializer):
             return value.title()
     
 
-        
+    def get_namel(self,object):
+     name= len(object.name)
+     return name
+    
+
 
     
 
 
-    def validate(self, data):
+     def validate(self, data):
         
         if data['name'] != data['name'].lower():
             raise serializers.ValidationError("Blog post is not about Django")
